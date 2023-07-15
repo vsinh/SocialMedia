@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const baseURL = "http://192.168.2.14:3000";
+const baseURL = "http://192.168.1.11:3000";
 let socket = null;
 
 const connectSocket = (userId) => {

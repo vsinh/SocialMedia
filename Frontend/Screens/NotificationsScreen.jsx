@@ -19,7 +19,7 @@ import { readNotification } from "../api/notificationApi";
 import { clearStorySub, pushStorySub } from "../reducers/StoryReducer";
 import { getStoryById } from "../api/storyApi";
 
-export default function NotificationsScreen(/*{ navigation }*/) {
+export default function NotificationsScreen({ navigation }) {
   const NotificationsData = useSelector(state => state.notifications.arr);
 
   const uid = useSelector(state => state.uid.id);

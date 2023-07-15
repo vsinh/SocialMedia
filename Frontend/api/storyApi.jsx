@@ -1,51 +1,96 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { useEffect, useState } from 'react';
+import ApiManager from './ApiManager';
 
-const initialState = {
-  Main: [],
-  Sub: []
+export const getStoryById = async (storyId, token) => {
+  try {
+    const result = await ApiManager.get(`/story/${storyId}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    return error;
+  }
 };
 
-const StorySlice = createSlice({
-  name: "Story",
-  initialState,
-  reducers: {
-    pushStory: (state, action) => {
-      state.Main.push(action.payload);
-    },
-    pushStorySub: (state, action) => {
-      const index = state.Sub.findIndex(item => item._id === action.payload._id);
-      if (index === -1) state.Sub.push(action.payload);
-    },
-    deleteStory: (state, action) => {
-      const index = state.Main.findIndex(item => item._id === action.payload);
-      if (index !== -1) state.Main.splice(index, 1);
+export const getAllStory = async (userId, token) => {
+  try {
+    const result = await ApiManager.get(`/${userId}/story`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    return error;
+  }
+};
 
-      const indexSub = state.Sub.findIndex(item => item._id === action.payload);
-      if (indexSub !== -1) state.Sub.splice(indexSub, 1);
-    },
-    toggleLikeStory: (state, action) => {
-      const index = state.Main.findIndex(item => item._id === action.payload);
-      if (index !== -1) state.Main[index].isLiked = !state.Main[index].isLiked;
+export const getStoryFeed = async (userId, token) => {
+  try {
+    const result = await ApiManager.get(`/${userId}/story-feed`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    return error;
+  }
+};
 
-      const indexSub = state.Sub.findIndex(item => item._id === action.payload);
-      if (indexSub !== -1) state.Sub[indexSub].isLiked = !state.Sub[indexSub].isLiked;
-    },
-    clearStory: state => {
-      state.Main = [];
-      state.Sub = [];
-    },
-    clearStorySub: state => {
-      state.Sub = [];
+export const createStory = async (data, userId, token) => {
+  try {
+    const result = await ApiManager.post(`/${userId}/story`, data, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return result.data;
+  } catch (error) {
+    console.error('Failed to create story:', error);
+    if (error.response && error.response.data && error.response.data.errorMessage) {
+      throw new Error(error.response.data.errorMessage);
+    } else {
+      throw new Error('Failed to create story.');
     }
   }
-});
+};
 
-export const {
-  pushStory,
-  pushStorySub,
-  deleteStory,
-  toggleLikeStory,
-  clearStory,
-  clearStorySub
-} = StorySlice.actions;
-export default StorySlice.reducer;
+
+
+export const likeStory = async (authorId, storyId, token) => {
+  try {
+    const result = await ApiManager.patch(`/${authorId}/story/${storyId}`, null, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.errorMessage) {
+      throw new Error(error.response.data.errorMessage);
+    } else {
+      throw new Error('Failed to like story.');
+    }
+  }
+};
+
+export const deleteStoryApi = async (authorId, storyId, token) => {
+  try {
+    const result = await ApiManager.delete(`/${authorId}/story/${storyId}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.errorMessage) {
+      throw new Error(error.response.data.errorMessage);
+    } else {
+      throw new Error('Failed to delete story.');
+    }
+  }
+};
