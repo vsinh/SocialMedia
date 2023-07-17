@@ -1,8 +1,5 @@
 import axios from "axios";
 
-// https://workwize.azurewebsites.net/
-// http://10.0.140.194:3000
-
 const baseURL = "http://192.168.1.11:3000";
 
 const ApiManager = axios.create({

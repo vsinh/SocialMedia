@@ -141,8 +141,7 @@ exports.createForgetPasswordRequest = asyncCatch(async (req, res, next) => {
 
     let baseUrl
     if (process.env.NODE_ENV === 'development')
-        baseUrl = 'http://10.0.140.194:3000'
-    else baseUrl = 'https://workwize.azurewebsites.net'
+        baseUrl = 'http://192.168.1.11:3000';
 
     const mailOptions = {
         from: process.env.NODE_MAILER_USER,
