@@ -1,24 +1,2 @@
-Frontend/node_modules/
-Frontend/.expo/
-Frontend/dist/
-Frontend/npm-debug.*
-Frontend/*.jks
-Frontend/*.p8
-Frontend/*.p12
-Frontend/*.key
-Frontend/*.mobileprovision
-Frontend/*.orig.*
-Frontend/web-build/
-
-Frontend/api/ApiManager.jsx
-Frontend/utils/socket.js
-# macOS
-Frontend/.DS_Store
-
-# Temporary files created by Metro to check the health of the file watcher
-Frontend/.metro-health-check*
-
-# Backend
-backend/node_modules
-backend/config/product_config.env
 node_modules
+config/product_config.env
